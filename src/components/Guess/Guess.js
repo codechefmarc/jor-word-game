@@ -3,13 +3,17 @@ import { range } from '../../utils';
 import { checkGuess } from '../../game-helpers';
 
 function Guess({ value, answer }) {
-  const status = value ? checkGuess(value, answer) : '';
+  let status = '';
+  if (value) {
+    status = checkGuess(value, answer);
+  }
+
   return (
     <p className="guess">
       {range(5).map((num) => {
-        const statusClass = value ? `cell ${status[num].status}` : 'cell';
+        const statusClass = value ? status[num].status : '';
         return (
-          <span key={num} className={statusClass}>
+          <span key={num} className={`cell ${statusClass}`}>
             {value ? value[num] : undefined}
           </span>
         );
