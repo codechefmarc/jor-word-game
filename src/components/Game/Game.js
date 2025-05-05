@@ -1,21 +1,35 @@
 import React from 'react';
 
+import { NUM_OF_GUESSES_ALLOWED } from '../../constants';
 import { sample } from '../../utils';
 import { WORDS } from '../../data';
 import GuessInput from '../GuessInput/GuessInput';
 import GuessResults from '../GuessResults/GuessResults';
-import { NUM_OF_GUESSES_ALLOWED } from '../../constants';
-import WonBanner from '../WonBanner/WonBanner';
+import Keyboard from '../Keyboard/Keyboard';
 import LostBanner from '../LostBanner/LostBanner';
-
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
+import WonBanner from '../WonBanner/WonBanner';
 
 function Game() {
+  function getNewAnswer() {
+    return sample(WORDS);
+  }
+
+  function resetGame() {
+    setAnswer(getNewAnswer());
+    setGuesses([]);
+    setGameStatus('playing');
+    setGuessedCharacters([]);
+  }
+
   const [guesses, setGuesses] = React.useState([]);
+  const [guessedCharacters, setGuessedCharacters] = React.useState([]);
   const [gameStatus, setGameStatus] = React.useState('playing');
+  const [answer, setAnswer] = React.useState(getNewAnswer());
+  const [keyboardGuess, setKeyboardGuess] = React.useState([]);
+
+  // To make debugging easier, we'll log the solution in the console.
+  // console.info({ answer });
+  // console.info({ guessedCharacters });
 
   function handleSubmitGuess(tentativeGuess) {
     const nextGuesses = [...guesses, tentativeGuess];
@@ -25,6 +39,11 @@ function Game() {
       setGameStatus('lost');
     }
 
+    const nextGuessedCharacters = guessedCharacters.concat(
+      tentativeGuess.split(''),
+    );
+
+    setGuessedCharacters(nextGuessedCharacters);
     setGuesses(nextGuesses);
   }
 
@@ -39,10 +58,21 @@ function Game() {
         guesses={guesses}
         handleSubmitGuess={handleSubmitGuess}
         gameStatus={gameStatus}
+        keyboardGuess={keyboardGuess}
       />
-
-      {gameStatus === 'won' && <WonBanner numGuesses={guesses.length} />}
-      {gameStatus === 'lost' && <LostBanner answer={answer} />}
+      <Keyboard
+        guessedCharacters={guessedCharacters}
+        setGuessedCharacters={setGuessedCharacters}
+        handleSubmitGuess={handleSubmitGuess}
+        keyboardGuess={keyboardGuess}
+        setKeyboardGuess={setKeyboardGuess}
+      />
+      {gameStatus === 'won' && (
+        <WonBanner numGuesses={guesses.length} resetGame={resetGame} />
+      )}
+      {gameStatus === 'lost' && (
+        <LostBanner answer={answer} resetGame={resetGame} />
+      )}
     </>
   );
 }
