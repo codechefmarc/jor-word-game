@@ -60,13 +60,13 @@ function Game() {
         gameStatus={gameStatus}
         keyboardGuess={keyboardGuess}
       />
-      <Keyboard
+      {/* <Keyboard
         guessedCharacters={guessedCharacters}
         setGuessedCharacters={setGuessedCharacters}
         handleSubmitGuess={handleSubmitGuess}
         keyboardGuess={keyboardGuess}
         setKeyboardGuess={setKeyboardGuess}
-      />
+      /> */}
       {gameStatus === 'won' && (
         <WonBanner numGuesses={guesses.length} resetGame={resetGame} />
       )}

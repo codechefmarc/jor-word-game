@@ -16,7 +16,7 @@ function GuessInput({ handleSubmitGuess, gameStatus, keyboardGuess }) {
         id="guess-input"
         type="text"
         disabled={gameStatus !== 'playing'}
-        value={tentativeGuess ? tentativeGuess : keyboardGuess.join('')}
+        value={tentativeGuess ?? keyboardGuess.join('')}
         required={true}
         minLength={5}
         maxLength={5}
