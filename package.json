@@ -1,6 +1,7 @@
 {
   "name": "word-game",
   "version": "0.1.0",
+  "homepage": "https://codechefmarc.github.io/jor-word-game",
   "private": true,
   "author": "Josh Comeau <me@joshwcomeau.com>",
   "dependencies": {
@@ -18,10 +19,12 @@
     "predev": "rimraf .parcel-cache dist",
     "dev": "parcel public/index.html",
     "build": "parcel build public/index.html",
-    "new-component": "new-component"
+    "new-component": "new-component",
+    "deploy": "gh-pages -d dist"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "devDependencies": {
-    "constants-browserify": "^1.0.0"
+    "constants-browserify": "^1.0.0",
+    "gh-pages": "^6.3.0"
   }
 }
